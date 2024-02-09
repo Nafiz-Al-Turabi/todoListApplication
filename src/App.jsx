@@ -8,12 +8,17 @@ function App() {
   const [priority, setPriority] = useState('low');
   const [tasks, setTasks] = useState([]);
 
+  // add new Task handler
   const handleAddTask = () => {
     if (newTask.trim() !== '') {
       console.log("Task:", { id: Date.now(), text: newTask, completed: false, priority });
       setTasks([...tasks, { id: Date.now(), text: newTask, completed: false, priority }]);
       setNewTask('');
     }
+  };
+  // Delete task Handler
+  const deleteTask = id => {
+    setTasks(tasks.filter(task => task.id !== id));
   };
 
   return (
@@ -64,7 +69,7 @@ function App() {
                     <div className='space-x-5'>
                       <span className='text-red-500'>{task.priority}</span>
                       <button><FaPencilAlt /></button>
-                      <button><RiDeleteBin6Line /></button>
+                      <button onClick={()=> deleteTask(task.id)}><RiDeleteBin6Line /></button>
                     </div>
                   </div>
                 )
