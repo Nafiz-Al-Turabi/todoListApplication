@@ -8,11 +8,14 @@ function App() {
   const [newTask, setNewTask] = useState('');
   const [priority, setPriority] = useState('low');
   const [tasks, setTasks] = useState([]);
+  const [updatingTask, setUpdatingTask] = useState(null);
+  const [updatedTaskText, setUpdatedTaskText] = useState('');
+  const [updatedTaskPriority, setUpdatedTaskPriority] = useState('');
 
   // add new Task handler
   const handleAddTask = () => {
     if (newTask.trim() !== '') {
-      console.log("Task:", { id: Date.now(), text: newTask, completed: false, priority });
+      // console.log("Task:", { id: Date.now(), text: newTask, completed: false, priority });
       setTasks([...tasks, { id: Date.now(), text: newTask, completed: false, priority }]);
       setNewTask('');
     }
@@ -22,10 +25,23 @@ function App() {
     setTasks(tasks.filter(task => task.id !== id));
   };
 
-  // TODO
+  // Update Task Handler
   const updateTask = id => {
+    const taskToUpdate = tasks.find(task => task.id == id);
+    if (taskToUpdate) {
+      setUpdatingTask(taskToUpdate);
+      setUpdatedTaskText(taskToUpdate.text);
+      setUpdatedTaskPriority(taskToUpdate.priority)
+    }
+  };
 
-  }
+  // Save updated task Handler
+  const saveUpdatedTask = () => {
+    if (updatedTaskText.trim() !== '') {
+      setTasks(tasks.map(task => task.id === updatingTask.id ? { ...task, text: updatedTaskText, priority: updatedTaskPriority } : task));
+      setUpdatingTask(null)
+    }
+  };
 
   // Mark As Complete Handler
   const toggleComplete = id => {
@@ -48,7 +64,7 @@ function App() {
             </div>
             <div className='md:flex gap-10 text-gray-200'>
               <p className='text-lg'>Total Tasks: {tasks.length} </p>
-              <p className='text-lg'>Completed Tasks: 12 </p>
+              <p className='text-lg'>Completed Tasks: {tasks.filter(task => task.completed).length} </p>
             </div>
           </header>
           {/*  */}
@@ -63,9 +79,9 @@ function App() {
             <select
               onChange={e => setPriority(e.target.value)}
               className='w-full md:w-36 p-[7px] focus:outline-none text-gray-500 bg-gray-200 rounded  md:border-r '>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="Low">Low</option>
+              <option value="Medium">Medium</option>
+              <option value="High">High</option>
             </select>
             <button onClick={handleAddTask} className='w-full md:w-24 text-white p-2  font-semibold bg-green-500 rounded uppercase hover:bg-green-400 active:scale-95 duration-300 '>Add task</button>
           </section>
@@ -85,9 +101,9 @@ function App() {
                       {task.completed ? <p className='text-green-500'>{task.text}</p> : <p>{task.text}</p>}
                     </div>
                     <div className='space-x-5'>
-                      {task.completed ? <span className='bg-green-500 text-white px-1 rounded py-0.5 uppercase'>Completed</span> : ''}
+                      {task.completed ? <span className='bg-green-500 text-xs text-white px-1 rounded py-0.5 uppercase'>Completed</span> : ''}
                       <span className='text-red-500'>{task.priority}</span>
-                      <button onClick={updateTask}><FaPencilAlt /></button>
+                      <button onClick={() => updateTask(task.id)}><FaPencilAlt /></button>
                       <button onClick={() => deleteTask(task.id)}><RiDeleteBin6Line /></button>
                     </div>
                   </div>
@@ -96,6 +112,41 @@ function App() {
             </div>
           </section>
         </main>
+        {/* Updating Window */}
+        {updatingTask && (
+        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+          <div className="bg-white p-6 rounded-lg">
+            <input
+              type="text"
+              value={updatedTaskText}
+              onChange={e => setUpdatedTaskText(e.target.value)}
+              className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
+              placeholder="Update task..."
+            />
+            <select
+              value={updatedTaskPriority}
+              onChange={e => setUpdatedTaskPriority(e.target.value)}
+              className="w-full mb-4 px-3 py-2 border border-gray-300 rounded"
+            >
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+            </select>
+            <button
+              onClick={saveUpdatedTask}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+            >
+              Save
+            </button>
+            <button
+              onClick={() => setUpdatingTask(null)}
+              className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
       </div>
     </div>
   )
