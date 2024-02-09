@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 function App() {
   const [newTask, setNewTask] = useState('');
-  const [priority, setPriority] = useState('');
+  const [priority, setPriority] = useState('low');
   const [tasks, setTasks] = useState([]);
 
   const handleAddTask = () => {
@@ -26,7 +26,7 @@ function App() {
               <p className='text-lg text-gray-200'>Friday, Feb 9</p>
             </div>
             <div className='md:flex gap-10 text-gray-200'>
-              <p className='text-lg'>Incompete Tasks: 50 </p>
+              <p className='text-lg'>Total Tasks: {tasks.length} </p>
               <p className='text-lg'>Completed Tasks: 12 </p>
             </div>
           </div>
@@ -49,20 +49,26 @@ function App() {
             <button onClick={handleAddTask} className='w-full md:w-24 text-white p-2  font-semibold bg-green-500 rounded uppercase hover:bg-green-400 active:scale-95 duration-300 '>Add task</button>
           </div>
           {/*  */}
-          <div>
+          <div className='overflow-y-auto h-72 scrollable-container'>
             <div>
               {/* TODO Filter  */}
             </div>
-            <div className='text-gray-400 flex justify-between items-center border-y bg-slate-400/10 border-gray-400 p-3'>
-              <div className='flex gap-5 items-center '>
-                <input type="checkbox" />
-                <p>I will go to School </p>
-              </div>
-              <div className='space-x-5'>
-                <span className='text-red-500'>High</span>
-                <button><FaPencilAlt /></button>
-                <button><RiDeleteBin6Line /></button>
-              </div>
+            <div className='space-y-2'>
+              {
+                tasks.map(task =>
+                  <div key={task.id} className='text-gray-400 flex justify-between items-center border-y bg-slate-400/10 border-gray-400 p-3 mr-2'>
+                    <div className='flex gap-5 items-center '>
+                      <input type="checkbox" />
+                      <p>{task.text} </p>
+                    </div>
+                    <div className='space-x-5'>
+                      <span className='text-red-500'>{task.priority}</span>
+                      <button><FaPencilAlt /></button>
+                      <button><RiDeleteBin6Line /></button>
+                    </div>
+                  </div>
+                )
+              }
             </div>
           </div>
         </div>
