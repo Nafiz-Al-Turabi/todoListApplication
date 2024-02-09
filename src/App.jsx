@@ -1,7 +1,20 @@
 import './App.css'
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaPencilAlt } from "react-icons/fa";
+import { useState } from 'react';
+
 function App() {
+  const [newTask, setNewTask] = useState('');
+  const [priority, setPriority] = useState('');
+  const [tasks, setTasks] = useState([]);
+
+  const handleAddTask = () => {
+    if (newTask.trim() !== '') {
+      console.log("Task:", { id: Date.now(), text: newTask, completed: false, priority });
+      setTasks([...tasks, { id: Date.now(), text: newTask, completed: false, priority }]);
+      setNewTask('');
+    }
+  };
 
   return (
     <div className='bg-gradient-to-r to-violet-600 from-violet-400 h-screen'>
@@ -17,19 +30,23 @@ function App() {
               <p className='text-lg'>Completed Tasks: 12 </p>
             </div>
           </div>
+          {/*  */}
           <div className=' w-full lg:w-3/5 space-y-2 md:space-x-1 lg:space-x-2 mb-10'>
             <input
               type="text"
+              onChange={e => setNewTask(e.target.value)}
               className='w-full md:w-1/2 text-gray-500 bg-gray-200 focus:outline-none p-[7px] rounded   '
               placeholder='Add new task ...'
+              required
             />
-            <select className='w-full md:w-36 p-[7px] focus:outline-none text-gray-500 bg-gray-200 rounded  md:border-r '>
-              <option selected>Priority of task</option>
+            <select
+              onChange={e => setPriority(e.target.value)}
+              className='w-full md:w-36 p-[7px] focus:outline-none text-gray-500 bg-gray-200 rounded  md:border-r '>
               <option value="low">Low</option>
               <option value="medium">Medium</option>
               <option value="high">High</option>
             </select>
-            <button className='text-white p-2  font-semibold bg-green-500 rounded uppercase hover:bg-green-400 active:scale-95 duration-300 '>Add task</button>
+            <button onClick={handleAddTask} className='w-full md:w-24 text-white p-2  font-semibold bg-green-500 rounded uppercase hover:bg-green-400 active:scale-95 duration-300 '>Add task</button>
           </div>
           {/*  */}
           <div>
@@ -41,11 +58,11 @@ function App() {
                 <input type="checkbox" />
                 <p>I will go to School </p>
               </div>
-                <div className='space-x-5'>
-                  <span className='text-red-500'>High</span>
-                  <button><FaPencilAlt /></button>
-                  <button><RiDeleteBin6Line /></button>
-                </div>
+              <div className='space-x-5'>
+                <span className='text-red-500'>High</span>
+                <button><FaPencilAlt /></button>
+                <button><RiDeleteBin6Line /></button>
+              </div>
             </div>
           </div>
         </div>
