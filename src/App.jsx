@@ -16,6 +16,18 @@ function App() {
   const [filterOpen, setFilterOpen] = useState(false);
 
 
+  useEffect(() => {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+    if (storedTasks) {
+      setTasks(storedTasks);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  }, [tasks]);
+
+
   // add new Task handler
   const handleAddTask = () => {
     if (newTask.trim() !== '') {
