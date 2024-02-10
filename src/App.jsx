@@ -3,6 +3,7 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaFilter, FaPencilAlt, FaRegCheckCircle } from "react-icons/fa";
 import { FaCircleCheck } from "react-icons/fa6";
 import { useEffect, useState } from 'react';
+import logo from './assets/logo.png'
 
 function App() {
   const [newTask, setNewTask] = useState('');
@@ -10,7 +11,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
   const [updatingTask, setUpdatingTask] = useState(null);
   const [updatedTaskText, setUpdatedTaskText] = useState('');
-  const [updatedTaskPriority, setUpdatedTaskPriority] = useState('');
+  const [updatedTaskPriority, setUpdatedTaskPriority] = useState('Low');
   const [filterPriority, setFilterPriority] = useState('all');
   const [filterOpen, setFilterOpen] = useState(false);
 
@@ -73,10 +74,10 @@ function App() {
       <h1 className='hidden lg:block text-2xl text-gray-800  text-center font-bold uppercase pt-10 mb-5'>Todo List Application</h1>
       <div className='max-w-5xl mx-auto h-screen lg:h-3/4  bg-slate-700 lg:rounded-md shadow-2xl'>
         <main className='p-6 md:p-4 lg:p-8'>
-          <header className='flex justify-between items-center mb-6 '>
+          <header className='flex justify-between items-center mb-1 '>
             <div>
               <h1 className='text-lg font-bold text-white'>Todo List</h1>
-              <p className='text-xs text-gray-200'>Friday, Feb 9</p>
+              <img src={logo} alt="" className='h-10' />
             </div>
             <div className='md:flex gap-10 text-gray-200'>
               <p className='text-lg'>Total Tasks: {tasks.length} </p>
@@ -171,9 +172,9 @@ function App() {
                 onChange={e => setUpdatedTaskPriority(e.target.value)}
                 className="w-full mb-4 px-3 py-2 text-gray-100 bg-gray-400 focus:outline-none rounded"
               >
-                <option value="low">Low</option>
-                <option value="medium">Medium</option>
-                <option value="high">High</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
               </select>
               <div className='text-center'>
                 <button
