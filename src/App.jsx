@@ -70,7 +70,7 @@ function App() {
 
   return (
     <div className='bg-gradient-to-r to-cyan-100 from-cyan-300 h-screen'>
-      <h1 className='hidden lg:block text-2xl  text-center font-bold uppercase pt-10 mb-5'>Todo List Application</h1>
+      <h1 className='hidden lg:block text-2xl text-gray-800  text-center font-bold uppercase pt-10 mb-5'>Todo List Application</h1>
       <div className='max-w-5xl mx-auto h-screen lg:h-3/4  bg-slate-700 lg:rounded-md shadow-2xl'>
         <main className='p-6 md:p-4 lg:p-8'>
           <header className='flex justify-between items-center mb-6 '>
@@ -102,50 +102,57 @@ function App() {
             <button onClick={handleAddTask} className='w-full md:w-24 text-white p-2  font-semibold bg-green-500 rounded uppercase hover:bg-green-400 active:scale-95 duration-100 '>Add task</button>
           </section>
           {/* Filter by priority */}
-          <div className='relative'>
-            <div className="flex">
-              <button className="text-gray-500" onClick={handleFilterClick}>
-                <FaFilter className='bg-gray-400 text-4xl text-white p-1 mb-5 rounded' />
-              </button>
-            </div>
-            {filterOpen && (
-              <div className="mt-2 w-32 space-y-1 absolute left-3 top-6 bg-slate-500 p-2 rounded ">
-                <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('all')}>All</button>
-                <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('Low')}>Low</button>
-                <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('Medium')}>Medium</button>
-                <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('High')}>High</button>
+          {
+            tasks.length === 0 ? ''
+              :
+              <div className='relative'>
+                <div className="flex">
+                  <button className="text-gray-500" onClick={handleFilterClick}>
+                    <FaFilter className='bg-gray-400 text-4xl text-white p-1 mb-5 rounded' />
+                  </button>
+                </div>
+                {filterOpen && (
+                  <div className="mt-2 w-32 space-y-1 absolute left-3 top-6 bg-slate-500 p-2 rounded ">
+                    <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('all')}>All</button>
+                    <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('Low')}>Low</button>
+                    <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('Medium')}>Medium</button>
+                    <button className='block text-white w-full hover:bg-slate-400 rounded' onClick={() => handlePriorityChange('High')}>High</button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+          }
           {/* Table or card  */}
           <section className='overflow-y-auto h-[500px] md:h-72 scrollable-container'>
-
-            <div className='space-y-2'>
-              {
-                filteredTasks.map(task =>
-                  <div key={task.id} className='text-gray-200 flex justify-between items-center border-y bg-slate-400/10 border-gray-400 p-3 mr-2'>
-                    <div className='flex gap-5 items-center '>
-                      <button onClick={() => toggleComplete(task.id)}>
-                        {task.completed ? <FaCircleCheck className="text-green-500 text-lg" /> : <FaRegCheckCircle className="text-lg" />}
-                      </button>
-                      {task.completed ? <p className='text-green-500'>{task.text}</p> : <p>{task.text}</p>}
-                    </div>
-                    <div className='space-x-5'>
-                      {task.completed ? <span className=' bg-green-500 text-xs text-white px-1 rounded py-0.5 uppercase'>Completed</span> : ''}
-                      <span className={`text-xs uppercase ${task.priority === 'Low' ? 'text-green-500' :
-                        task.priority === 'Medium' ? 'text-yellow-500' :
-                          task.priority === 'High' ? 'text-red-500' :
-                            ''
-                        }`}>
-                        {task.priority}
-                      </span>
-                      <button onClick={() => updateTask(task.id)}><FaPencilAlt /></button>
-                      <button onClick={() => deleteTask(task.id)}><RiDeleteBin6Line /></button>
-                    </div>
-                  </div>
-                )
-              }
-            </div>
+            {
+              tasks.length === 0 ? <p className='text-center text-gray-500/20 text-4xl md:text-6xl font-extrabold uppercase mt-12'>Add new task</p>
+                :
+                <div className='space-y-2'>
+                  {
+                    filteredTasks.map(task =>
+                      <div key={task.id} className='text-gray-200 flex justify-between items-center border-y bg-slate-400/10 border-gray-400 p-3 mr-2'>
+                        <div className='flex gap-5 items-center '>
+                          <button onClick={() => toggleComplete(task.id)}>
+                            {task.completed ? <FaCircleCheck className="text-green-500 text-lg" /> : <FaRegCheckCircle className="text-lg" />}
+                          </button>
+                          {task.completed ? <p className='text-green-500'>{task.text}</p> : <p>{task.text}</p>}
+                        </div>
+                        <div className='space-x-5'>
+                          {task.completed ? <span className=' bg-green-500 text-xs text-white px-1 rounded py-0.5 uppercase'>Completed</span> : ''}
+                          <span className={`text-xs uppercase ${task.priority === 'Low' ? 'text-green-500' :
+                            task.priority === 'Medium' ? 'text-yellow-500' :
+                              task.priority === 'High' ? 'text-red-500' :
+                                ''
+                            }`}>
+                            {task.priority}
+                          </span>
+                          <button onClick={() => updateTask(task.id)}><FaPencilAlt /></button>
+                          <button onClick={() => deleteTask(task.id)}><RiDeleteBin6Line /></button>
+                        </div>
+                      </div>
+                    )
+                  }
+                </div>
+            }
           </section>
         </main>
         {/* Updating Window */}
