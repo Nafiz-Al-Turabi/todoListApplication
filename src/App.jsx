@@ -44,7 +44,7 @@ function App() {
   };
   // Delete task Handler
   const deleteTask = id => {
-    const updatedTasks = tasks.filter(task => id !== id)
+    const updatedTasks = tasks.filter(task =>task.id !== id)
     setTasks(updatedTasks);
     setTasksToLocalStorage(updatedTasks);
   };
@@ -152,7 +152,7 @@ function App() {
                 <div className='space-y-2'>
                   {
                     filteredTasks.map(task =>
-                      <div key={task.id} className='text-gray-200 flex justify-between items-center border-y bg-slate-400/10 border-gray-400 p-3 mr-2'>
+                      <div key={task.id} className='animation text-gray-200 flex justify-between items-center border-y bg-slate-400/10 border-gray-400 p-3 mr-2'>
                         <div className='flex gap-5 items-center '>
                           <button onClick={() => toggleComplete(task.id)}>
                             {task.completed ? <FaCircleCheck className="text-green-500 text-lg" /> : <FaRegCheckCircle className="text-lg" />}
@@ -180,19 +180,19 @@ function App() {
         </main>
         {/* Updating Window */}
         {updatingTask && (
-          <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
-            <div className="bg-slate-700 p-6 rounded-lg mx-4 md:mx-0">
+          <div className=" fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+            <div className="animation bg-slate-700 p-6 rounded-lg mx-4 md:mx-0">
               <input
                 type="text"
                 value={updatedTaskText}
                 onChange={e => setUpdatedTaskText(e.target.value)}
-                className="w-full mb-4 px-3 py-2 text-gray-100 bg-gray-400 focus:outline-nonerounded"
+                className="w-full mb-4 px-3 py-2 text-gray-600 focus:outline-none rounded"
                 placeholder="Update task..."
               />
               <select
                 value={updatedTaskPriority}
                 onChange={e => setUpdatedTaskPriority(e.target.value)}
-                className="w-full mb-4 px-3 py-2 text-gray-100 bg-gray-400 focus:outline-none rounded"
+                className="w-full mb-4 px-3 py-2 text-gray-600 focus:outline-none rounded"
               >
                 <option value="Low">Low</option>
                 <option value="Medium">Medium</option>
@@ -201,7 +201,7 @@ function App() {
               <div className='text-center'>
                 <button
                   onClick={saveUpdatedTask}
-                  className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mr-2"
+                  className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mr-2"
                 >
                   Save
                 </button>
