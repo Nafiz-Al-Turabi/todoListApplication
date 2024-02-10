@@ -16,29 +16,37 @@ function App() {
   const [filterOpen, setFilterOpen] = useState(false);
 
 
-  useEffect(() => {
+  // Function to read tasks from local storage
+  const getFromLocalStorage = () => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks'));
     if (storedTasks) {
       setTasks(storedTasks);
     }
-  }, []);
+  };
 
-  useEffect(() => {
+  // Function to write tasks to local storage
+  const setTasksToLocalStorage = (tasks) => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
-  }, [tasks]);
+  };
+  useState(() => {
+    getFromLocalStorage();
+  }, []);
 
 
   // add new Task handler
   const handleAddTask = () => {
     if (newTask.trim() !== '') {
-      // console.log("Task:", { id: Date.now(), text: newTask, completed: false, priority });
-      setTasks([...tasks, { id: Date.now(), text: newTask, completed: false, priority }]);
+      const newTaskObject = { id: Date.now(), text: newTask, completed: false, priority };
+      setTasks([...tasks, newTaskObject]);
+      setTasksToLocalStorage([...tasks, newTaskObject])
       setNewTask('');
     }
   };
   // Delete task Handler
   const deleteTask = id => {
-    setTasks(tasks.filter(task => task.id !== id));
+    const updatedTasks = tasks.filter(task => id !== id)
+    setTasks(updatedTasks);
+    setTasksToLocalStorage(updatedTasks);
   };
 
   // Update Task Handler
@@ -54,18 +62,20 @@ function App() {
   // Save updated task Handler
   const saveUpdatedTask = () => {
     if (updatedTaskText.trim() !== '') {
-      setTasks(tasks.map(task => task.id === updatingTask.id ? { ...task, text: updatedTaskText, priority: updatedTaskPriority } : task));
+      const updatedTasks = tasks.map(task => task.id === updatingTask.id ? { ...task, text: updatedTaskText, priority: updatedTaskPriority } : task)
+      setTasks(updatedTasks);
+      setTasksToLocalStorage(updatedTasks)
       setUpdatingTask(null)
     }
   };
 
   // Mark As Complete Handler
   const toggleComplete = id => {
-    setTasks(
-      tasks.map(task =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      )
+    const updatedTasks = tasks.map(task =>
+      task.id === id ? { ...task, completed: !task.completed } : task
     );
+    setTasks(updatedTasks);
+    setTasksToLocalStorage(updatedTasks);
   };
 
   // Filter by priority
