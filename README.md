@@ -49,7 +49,3 @@ This project is a simple Todo List Application built using React. It allows user
 
 - Users can clone or download the project repository and run it locally using npm or yarn.
 - They can also contribute to the project by enhancing existing features or adding new ones.
-
-## Note:
-
-- This README provides a high-level overview of the project. For detailed information on each component, function, or style, developers can refer to the source code and comments within the files.
